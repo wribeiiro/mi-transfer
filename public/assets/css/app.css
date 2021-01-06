@@ -1,0 +1,56 @@
+:root {
+    --purple: #7159C1;
+    --white: #fff;
+    --black: #000;
+    --dark-gray: #121214;
+    --gray: #212025;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--dark-gray);
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.card, li {
+    background-color: var(--gray) !important;
+}
+
+.btn-primary {
+    background-color: var(--purple) !important;
+    border: solid 1px var(--purple) !important;
+    color: var(--white);
+}
+
+#files {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+ }
+
+.select-files,label {
+    cursor: pointer;
+}
+
+.border-purple-top {
+    border-top: solid 3px var(--purple);
+}
+
+input[type=email], 
+textarea {
+    background-color: var(--black) !important;
+    border: none !important;
+}
+
+input[type=email]:focus,
+textarea:focus {
+    background-color: var(--black) !important;
+    border: solid 2px var(--purple) !important;
+    box-shadow: none !important;
+}
