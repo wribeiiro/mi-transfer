@@ -18,9 +18,9 @@ $("#formFiles").on("submit", function(e) {
     const emailFrom = $("#emailFrom").val()
     const emailTo = $("#emailTo").val()
     const message = $("#message").val()
+    const files   = $('#files')[0].files
 
-    const formData = new FormData(this)
-    const files     = $('#files')[0].files
+    console.log(files)
 
     if (!files.length) {
         $('#resultMessage').html(`
@@ -43,20 +43,14 @@ $("#formFiles").on("submit", function(e) {
 
         return
     }
-    
+
+    let formData = new FormData(this)
+
     formData.append('emailFrom', emailFrom)
     formData.append('emailTo', emailTo)
     formData.append('message', message)
     formData.append("files[]", files)
 
-    const clearFields = () => {
-        $('#selectedFiles').text('')
-        $("#emailFrom").val('')
-        $("#emailTo").val('')
-        $("#message").val('')
-        $('#files').val(null)
-    }
-    
     $.ajax({
         url: `${BASE_URL}/sendFiles`,
         cache: false,
@@ -68,7 +62,7 @@ $("#formFiles").on("submit", function(e) {
         success: (data) => {
             console.log(data)
 
-            if (data.status = 1) {
+            if (data.status === 1 && data.data === "OK") {
                 $('#resultMessage').html(`
                     <div class="alert alert-success">
                         <button type="button" class="close" data-dismiss="alert">×</button>
@@ -77,9 +71,16 @@ $("#formFiles").on("submit", function(e) {
                 `)
 
                 clearFields()
-            } 
+            } else {
+                $('#resultMessage').html(`
+                    <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">×</button>
+                        ${data.data}
+                    </div>
+                `)
+            }
         }, 
-        error: (e) => {
+        error: (e, ajaxOptions, thrownError) => {
             console.log(e)
 
             $('#resultMessage').html(`
@@ -118,3 +119,11 @@ $("#formFiles").on("submit", function(e) {
 
     return false
 })
+
+function clearFields() {
+    $('#selectedFiles').text('')
+    $("#emailFrom").val('')
+    $("#emailTo").val('')
+    $("#message").val('')
+    $('#files').val(null)
+}

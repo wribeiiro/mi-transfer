@@ -10,15 +10,15 @@ final class HomeService
 
     public static function handle(string $emailFrom, string $emailTo, string $message, array $files) {
 
-        if (empty($emailFrom) || filter_var($emailFrom, FILTER_VALIDATE_EMAIL)) {
+        if (empty($emailFrom) || !filter_var($emailFrom, FILTER_VALIDATE_EMAIL)) {
 			return "E-mail from is invalid";
         }
         
-        if (empty($emailTo) || filter_var($emailTo, FILTER_VALIDATE_EMAIL)) {
+        if (empty($emailTo) || !filter_var($emailTo, FILTER_VALIDATE_EMAIL)) {
 			return "E-mail to is invalid";
 		}
 
-		if (empty($files['tmp_name'])) {	
+		if (count($files) <= 0) {	
 			return "Files is required";
         }
 

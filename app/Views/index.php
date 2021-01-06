@@ -24,19 +24,19 @@
         <div class="container">
             <div class="col col-md-6 col-lg-6 col-sm-12 col-xl-4">
                 <div class="card border-purple-top">
-                    <div class="card-body">
-                        <h5 class="card-title select-files"> 
-							<div class="btn rounded-circle btn-primary"> <i class="fa fa-plus"></i></div> 
-							<label for="files" class="text-white">Adicionar arquivos</label>
-							<input type="file" name="files[]" id="files">
-							<br>
-							<small style="font-size: 14px;" class="text-white" id="selectedFiles"></small>
-						</h5>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item">
-							<div id="resultMessage"></div>
-							<form id="formFiles">
+					<form id="formFiles" method="POST" enctype="multipart/form-data">
+						<div class="card-body">
+							<h5 class="card-title select-files"> 
+								<div class="btn rounded-circle btn-primary"> <i class="fa fa-plus"></i></div> 
+								<label for="files" class="text-white">Adicionar arquivos</label>
+								<input type="file" name="files[]" id="files" multiple>
+								<br>
+								<small style="font-size: 14px;" class="text-white" id="selectedFiles"></small>
+							</h5>
+						</div>
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item">
+								<div id="resultMessage"></div>
 								<div class="form-group">
 									<label for="emailFrom" class="text-white">Seu endereço de e-mail</label>
 									<input type="email" class="form-control form-control-sm" id="emailFrom" name="emailFrom" placeholder="">
@@ -51,12 +51,13 @@
 									<label for="emailFrom" class="text-white">Mensagem</label>
 									<textarea class="form-control form-control-sm" name="message" id="message" rows="3"></textarea>
 								</div>
-							</form>  
-						</li>
-						<li class="list-group-item">
-							<button type="button" class="btn btn-primary btn-sm" id="sendFiles"> <i class="fa fa-paper-plane"></i> Enviar arquivos </button>
-						</li>
-                    </ul>
+								
+							</li>
+							<li class="list-group-item">
+								<button type="button" class="btn btn-primary btn-sm" id="sendFiles"> <i class="fa fa-paper-plane"></i> Enviar arquivos </button>
+							</li>
+						</ul>
+					</form> 
                 </div>
             </div>
         </div>

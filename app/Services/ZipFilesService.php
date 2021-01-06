@@ -4,10 +4,16 @@ namespace App\Services;
 
 final class ZipFilesService
 {
-    
+	const PATH_FILES = FCPATH. '../public/files/';
+	
     public static function zip(array $files): string 
 	{
-		$fileName = 'public/assets/files/'.date('dmYHmi').".zip";
+		if (!file_exists(self::PATH_FILES)) {
+			mkdir(self::PATH_FILES);
+		}
+
+		$fileName = self::PATH_FILES . date('dmYHmi').".zip";
+		
         $zip = new \ZipArchive();
         $fileZipped = $zip->open($fileName, \ZIPARCHIVE::CREATE);
 

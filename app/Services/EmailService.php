@@ -38,7 +38,7 @@ class EmailService
     {
         $this->email_from = $emailFrom;
         $this->email_to = $emailTo;
-        $this->message = $message;
+        $this->message = $message . ";";
         $this->attachment = $attachment;
     }
 
@@ -50,6 +50,14 @@ class EmailService
 
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;                  
             $mail->isSMTP();    
+
+            $mail->SMTPOptions = array(
+                'ssl' => array(
+                    'verify_peer'       => false,
+                    'verify_peer_name'  => false,
+                    'allow_self_signed' => true
+                )
+            );
 
             $mail->Host       = self::SERVER_SETTINGS['host'];                    
             $mail->SMTPAuth   = self::SERVER_SETTINGS['smtpAuth'];                                  

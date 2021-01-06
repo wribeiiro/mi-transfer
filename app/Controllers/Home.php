@@ -16,7 +16,8 @@ class Home extends BaseController
 	{
         $response = [
 			"status" => 0,
-			"data"   => []
+			"data"   => [],
+			"code"   => 200
 		];
 
 		try {
@@ -25,10 +26,11 @@ class Home extends BaseController
 				$this->request->getPost('emailFrom', FILTER_SANITIZE_EMAIL), 
 				$this->request->getPost('emailTo', FILTER_SANITIZE_EMAIL), 
 				$this->request->getPost('message', FILTER_DEFAULT), 
-				$this->request->getFiles('files')
+				$_FILES['files']
 			);
-			
+
 		} catch (\Exception $except) {
+			$response["code"] = 500;
 			$response["data"] = $except->getMessage();
 		}
 		
