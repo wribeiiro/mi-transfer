@@ -4,7 +4,7 @@ namespace App\Services;
 
 final class ZipFilesService
 {
-	const PATH_FILES = FCPATH. '../public/files/';
+	const PATH_FILES = FCPATH. '../writable/uploads/';
 	
     public static function zip(array $files): string 
 	{
@@ -12,7 +12,7 @@ final class ZipFilesService
 			mkdir(self::PATH_FILES);
 		}
 
-		$fileName = self::PATH_FILES . date('dmYHmi').".zip";
+		$fileName = self::PATH_FILES . self::generateFilename();
 		
         $zip = new \ZipArchive();
         $fileZipped = $zip->open($fileName, \ZIPARCHIVE::CREATE);
@@ -29,5 +29,9 @@ final class ZipFilesService
 		} 
 		
 		return "";
+	}
+
+	private static function generateFilename(): string {
+		return md5(date('dmYHmi')) . ".zip";
 	}
 }

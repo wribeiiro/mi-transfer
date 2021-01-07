@@ -9,14 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 class EmailService
 {
     const SUBJECT = "MiTransfer";
-    const IS_HTML = true;
-    const SERVER_SETTINGS = [
-        "host" => "mail.wribeiiro.com",
-        "smtpAuth" => true,
-        "username" => "dev@wribeiiro.com",
-        "password" => "xbox360",
-        "port" => 587
-    ];
+    const IS_HTML = false;
 
     private string $email_from;
     private string $email_to;
@@ -44,6 +37,11 @@ class EmailService
 
     public function send(): string {
 
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 0);
+		ini_set('post_max_size', '2G');
+		ini_set('upload_max_filesize', '2G');
+
         $mail = new PHPMailer(true);
 
         try {
@@ -59,14 +57,14 @@ class EmailService
                 )
             );
 
-            $mail->Host       = self::SERVER_SETTINGS['host'];                    
-            $mail->SMTPAuth   = self::SERVER_SETTINGS['smtpAuth'];                                  
-            $mail->Username   = self::SERVER_SETTINGS['username'];                     
-            $mail->Password   = self::SERVER_SETTINGS['password'];   
-            $mail->Port       = self::SERVER_SETTINGS['port'];                            
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;       
-           
-            $mail->setFrom($this->email_from, $this->email_from);
+            $mail->Host       = getenv('email.hostname');                    
+            $mail->SMTPAuth   = getenv('email.smtpauth');                                  
+            $mail->Username   = getenv('email.username');                     
+            $mail->Password   = getenv('email.password');   
+            $mail->Port       = getenv('email.port');                            
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  
+            
+            $mail->setFrom($this->email_from, self::SUBJECT);
             $mail->addAddress($this->email_to);    
             $mail->addAttachment($this->attachment);  
             $mail->isHTML(self::IS_HTML);

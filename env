@@ -47,6 +47,16 @@ app.baseURL = 'http://localhost/mi-transfer'
 # app.CSPEnabled = false
 
 #--------------------------------------------------------------------
+# EMAIL
+#--------------------------------------------------------------------
+
+email.hostname = smtp.mailtrap.io
+email.username = c8a6b62f271b0a
+email.password = a6167f1be7f4bf
+email.smtpauth = true
+email.port     = 2525
+
+#--------------------------------------------------------------------
 # DATABASE
 #--------------------------------------------------------------------
 
