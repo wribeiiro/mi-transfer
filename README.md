@@ -1,4 +1,4 @@
-# 📁📧 mi-transfer [![Deploy with Vercel](https://vercel.com/button)](https://react-weather-alpha.vercel.app/)
+# 📁📧 mi-transfer
 A simple and fast online file uploader.
 
 # Screenshot
