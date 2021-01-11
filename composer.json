@@ -7,8 +7,9 @@
 	"require": {
 		"php": ">=7.2",
 		"codeigniter4/framework": "^4",
-		"phpmailer/phpmailer": "^6.2"
-	},
+		"phpmailer/phpmailer": "^6.2",
+      	"ext-zip": "*"
+    },
 	"require-dev": {
 		"fzaninotto/faker": "^1.9@dev",
 		"mikey179/vfsstream": "1.6.*",
