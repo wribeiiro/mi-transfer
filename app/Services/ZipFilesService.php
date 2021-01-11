@@ -2,11 +2,19 @@
 
 namespace App\Services;
 
+/**
+ * Class ZipFilesService
+ * @package App\Services
+ */
 final class ZipFilesService
 {
 	const PATH_FILES = FCPATH. '../writable/uploads/';
-	
-    public static function zip(array $files): string 
+
+    /**
+     * @param array $files
+     * @return string
+     */
+    public static function zip(array $files): string
 	{
 		if (!file_exists(self::PATH_FILES)) {
 			mkdir(self::PATH_FILES);
@@ -31,7 +39,10 @@ final class ZipFilesService
 		return "";
 	}
 
-	private static function generateFilename(): string {
+    /**
+     * @return string
+     */
+    private static function generateFilename(): string {
 		return md5(date('dmYHmi')) . ".zip";
 	}
 }
