@@ -36,12 +36,7 @@ class EmailService
     }
 
     public function send(): string {
-
-        ini_set('memory_limit', '-1');
-        ini_set('max_execution_time', 0);
-		ini_set('post_max_size', '2G');
-		ini_set('upload_max_filesize', '2G');
-
+        
         $mail = new PHPMailer(true);
 
         try {
