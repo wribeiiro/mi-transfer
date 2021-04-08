@@ -32,6 +32,7 @@ $("#formFiles").on("submit", function(e) {
     const emailFrom = $("#emailFrom").val()
     const emailTo = $("#emailTo").val()
     const message = $("#message").val()
+    const csrf    = $("#csrf").val()
     const files   = $('#files')[0].files
 
     if (validateFields(emailFrom, emailTo, files) === false) {
@@ -43,10 +44,11 @@ $("#formFiles").on("submit", function(e) {
     formData.append('emailFrom', emailFrom)
     formData.append('emailTo', emailTo)
     formData.append('message', message)
+    formData.append('csrf', csrf)
     formData.append("files[]", files)
 
     $.ajax({
-        url: `${BASE_URL}/sendFiles`,
+        url: `${BASE_URL}/sendfiles`,
         cache: false,
         contentType: false,
         processData: false,
@@ -54,7 +56,7 @@ $("#formFiles").on("submit", function(e) {
         type: "POST",
         dataType: "JSON",
         success: (data) => {
-
+            console.log(data)
             if (data.status === 1 && data.data === "OK") {
                 $('#resultMessage').html(MESSAGES.success)
                 clearFields()
@@ -63,8 +65,13 @@ $("#formFiles").on("submit", function(e) {
 
             $('#resultMessage').html(MESSAGES.warning(data.data))
         }, 
-        error: (e, ajaxOptions, thrownError) => {
+        error: (e) => {
             console.log(e)
+            if (e.status == 400) {
+                alert('aosdk')
+                $('#resultMessage').html(MESSAGES.warning(e.responseJSON.data))
+                return
+            }
 
             $('#resultMessage').html(MESSAGES.danger)
         },

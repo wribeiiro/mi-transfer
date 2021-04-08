@@ -1,6 +1,7 @@
 <?php namespace Config;
 
 use CodeIgniter\Config\Services as CoreServices;
+use CodeIgniter\HTTP\Response;
 
 /**
  * Services Configuration file.
@@ -27,4 +28,12 @@ class Services extends CoreServices
 	//
 	//        return new \CodeIgniter\Example();
 	//    }
+
+	public static function options(): Response {
+		return Services::response()
+			->setHeader('Access-Control-Allow-Origin', '*')
+            ->setHeader('Access-Control-Allow-Headers', 'Authorization, Token, Content-type')
+            ->setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE') //method allowed
+            ->setStatusCode(200); //status code
+	}
 }

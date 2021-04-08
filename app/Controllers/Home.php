@@ -1,8 +1,9 @@
-<?php 
+<?php
 
 namespace App\Controllers;
 
 use App\Services\HomeService;
+use App\Enum\ResponseEnum;
 
 class Home extends BaseController
 {
@@ -12,31 +13,39 @@ class Home extends BaseController
 		return view('index');
 	}
 
-	public function sendFiles() 
+	public function sendFiles()
 	{
-        $response = [
+		$response = [
 			"status" => 0,
 			"data"   => [],
-			"code"   => 200
+			"code"   => ResponseEnum::HTTP_OK
 		];
 
 		try {
-			$response["status"] = 1;
-			$response["data"] = HomeService::handle(
-				$this->request->getPost('emailFrom', FILTER_SANITIZE_EMAIL), 
-				$this->request->getPost('emailTo', FILTER_SANITIZE_EMAIL), 
-				$this->request->getPost('message', FILTER_DEFAULT), 
-				$_FILES['files']
-			);
 
+			$resultData = HomeService::create($this->request);
+
+			if (is_array($resultData)) {
+				$response["data"] = implode(", ", $resultData);
+				$response["code"] = ResponseEnum::HTTP_BAD_REQUEST;
+
+				$this->response
+					->setStatusCode($response['code'])
+					->setJSON($response)
+					->send();
+				return;
+			}
+
+			$response["status"] = 1;
+			$response["data"] = $resultData;
 		} catch (\Exception $except) {
-			$response["code"] = 500;
+			$response["code"] = ResponseEnum::HTTP_INTERNAL_SERVER_ERROR;
 			$response["data"] = $except->getMessage();
 		}
-		
-        $this->response
-            ->setStatusCode($response['code'])
-            ->setJSON($response)
-            ->send();
+
+		$this->response
+			->setStatusCode($response['code'])
+			->setJSON($response)
+			->send();
 	}
 }

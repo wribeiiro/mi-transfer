@@ -13,7 +13,7 @@ class EmailService
 
     private string $email_from;
     private string $email_to;
-    private string $message;
+    private ?string $message;
     private string $attachment;
 
     /**
@@ -24,25 +24,26 @@ class EmailService
      * @param string $attachment
      */
     public function __construct(
-        string $emailFrom, 
-        string $emailTo, 
-        string $message = "",
-        string $attachment)
-    {
+        string $emailFrom,
+        string $emailTo,
+        ?string $message,
+        string $attachment
+    ) {
         $this->email_from = $emailFrom;
         $this->email_to = $emailTo;
         $this->message = $message . ";";
         $this->attachment = $attachment;
     }
 
-    public function send(): string {
-        
+    public function send(): string
+    {
+
         $mail = new PHPMailer(true);
 
         try {
 
-            $mail->SMTPDebug = SMTP::DEBUG_SERVER;                  
-            $mail->isSMTP();    
+            $mail->SMTPDebug = SMTP::DEBUG_SERVER;
+            $mail->isSMTP();
 
             $mail->SMTPOptions = array(
                 'ssl' => array(
@@ -52,16 +53,16 @@ class EmailService
                 )
             );
 
-            $mail->Host       = getenv('email.hostname');                    
-            $mail->SMTPAuth   = getenv('email.smtpauth');                                  
-            $mail->Username   = getenv('email.username');                     
-            $mail->Password   = getenv('email.password');   
-            $mail->Port       = getenv('email.port');                            
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;  
-            
+            $mail->Host       = getenv('email.hostname');
+            $mail->SMTPAuth   = getenv('email.smtpauth');
+            $mail->Username   = getenv('email.username');
+            $mail->Password   = getenv('email.password');
+            $mail->Port       = getenv('email.port');
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+
             $mail->setFrom($this->email_from, self::SUBJECT);
-            $mail->addAddress($this->email_to);    
-            $mail->addAttachment($this->attachment);  
+            $mail->addAddress($this->email_to);
+            $mail->addAttachment($this->attachment);
             $mail->isHTML(self::IS_HTML);
 
             $mail->Subject = self::SUBJECT;
@@ -69,11 +70,10 @@ class EmailService
             $mail->AltBody = $this->message;
 
             $result = "OK";
-            
+
             if (!$mail->send()) {
                 $result = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
             }
-
         } catch (Exception $except) {
             $result = $except->getMessage();
         }
